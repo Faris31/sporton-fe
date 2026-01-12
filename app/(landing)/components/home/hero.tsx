@@ -5,16 +5,18 @@ import Image from "next/image";
 const HeroSection = () => {
     return (
       <section id="hero-section" className="container mx-auto h-screen flex">
-            <div className="relative self-center">
-                <Image
-                    src="/images/img-basketball.png"
-                    alt="basketball ornament"
-                    width={432}
-                    height={423}
-                    className="grayscale absolute left-0 -top-20"
-                />    
+        <div className="relative self-center">
+          <Image
+            src="/images/img-basketball.png"
+            alt="basketball ornament"
+            width={432}
+            height={423}
+            className="grayscale-25 absolute left-0 -top-10"
+          />
           <div className="relative ml-40 w-full">
-            <div className="text-primary italic">Friday Sale, 50%</div>
+            <div className="text-primary italic bg-red-400/20 h-[40px] w-[200px] pl-9 pt-2 rounded-full">
+              Friday Sale, 50%
+            </div>
             <h1 className="font-extrabold text-[95px] italic leading-tight bg-gradient-to-b from-black to-[#979797D1] bg-clip-text text-transparent">
               WEAR YOUR <br /> TOP-QUALITY <br /> SPORTSWEAR
             </h1>
