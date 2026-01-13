@@ -45,11 +45,11 @@ const productsList = [
 
 const ProductsSection = () => {
   return (
-    <section id="products-sections" className="container mx-auto mt-28">
+    <section id="products-sections" className="container mx-auto mt-20">
       <h2 className="font-bold italic text-4xl text-center mb-11">
         <span className="text-primary">OUR</span> PRODUCT
       </h2>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-4 gap-5 mb-20">
         {productsList.map((product, index) => (
           <Link
             href="#"

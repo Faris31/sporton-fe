@@ -11,7 +11,7 @@ const Header = () => {
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
   return (
-    <header className="fixed bg-white w-full z-50 transition-all ease-in-out duration-500">
+    <header className="fixed bg-white w-full z-50 transition-all ease-in-out duration-500 top-0">
       <div className="relative flex z-0 justify-between gap-10 container mx-auto py-7">
         <Image
           src="/images/logo.svg"
