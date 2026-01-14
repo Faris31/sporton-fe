@@ -11,7 +11,7 @@ const Header = () => {
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
   return (
-    <header className="fixed bg-white w-full transition-all ease-in-out top-0">
+    <header className="fixed z-30 bg-white w-full transition-all ease-in-out top-0">
       <div className="relative flex justify-between gap-10 container mx-auto py-7">
         <Link href="/">
           <Image

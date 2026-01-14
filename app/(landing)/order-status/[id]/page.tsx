@@ -6,7 +6,7 @@ import OrderSubmited from "../../components/order-status/order-submited";
 
 const OrderStatus = () => {
 
-    const [isConfirmed, setIsConfirmed] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState(true);
 
     return (
       <main className="bg-gray-100 min-h-[80vh]">
