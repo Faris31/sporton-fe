@@ -14,10 +14,10 @@ const HeroSection = () => {
             className="grayscale-25 absolute left-0 -top-10"
           />
           <div className="relative ml-40 w-full">
-            <div className="text-primary italic bg-red-400/20 h-[40px] w-[200px] pl-9 pt-2 rounded-full">
+            <div className="text-primary italic bg-red-400/20 h-10 w-50 pl-9 pt-2 rounded-full">
               Friday Sale, 50%
             </div>
-            <h1 className="font-extrabold text-[95px] italic leading-tight bg-gradient-to-b from-black to-[#979797D1] bg-clip-text text-transparent">
+            <h1 className="font-extrabold text-[95px] italic leading-tight bg-linear-to-b from-black to-[#979797D1] bg-clip-text text-transparent">
               WEAR YOUR <br /> TOP-QUALITY <br /> SPORTSWEAR
             </h1>
             <p className="w-1/2 mt-10 leading leading-loose">
@@ -53,7 +53,7 @@ const HeroSection = () => {
           alt="circle ornament"
           width={420}
           height={420}
-          className="absolute -right-[210px] top-1/2 -translate-y-1/2"
+          className="absolute -right-52.5 top-1/2 -translate-y-1/2"
         />
       </section>
     );

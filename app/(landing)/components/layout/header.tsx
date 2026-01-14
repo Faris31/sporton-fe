@@ -11,14 +11,16 @@ const Header = () => {
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
   return (
-    <header className="fixed bg-white w-full z-50 transition-all ease-in-out duration-500 top-0">
-      <div className="relative flex z-0 justify-between gap-10 container mx-auto py-7">
-        <Image
-          src="/images/logo.svg"
-          alt="sporton logo"
-          width={127}
-          height={30}
-        />
+    <header className="fixed bg-white w-full transition-all ease-in-out top-0">
+      <div className="relative flex justify-between gap-10 container mx-auto py-7">
+        <Link href="/">
+          <Image
+            src="/images/logo.svg"
+            alt="sporton logo"
+            width={127}
+            height={30}
+          />
+        </Link>
         <nav className="flex gap-44 font-medium">
           <Link
             href="#"
@@ -30,9 +32,9 @@ const Header = () => {
           <Link href="#">Explore Products</Link>
         </nav>
         <div className="flex gap-10 items-center">
-          <FiSearch size={24} className="hover:scale-125" />
+          <FiSearch size={24} className="hover:scale-125 duration-200" />
           <button
-            className="relative cursor-pointer hover:scale-125"
+            className="relative cursor-pointer hover:scale-125 duration-100"
             onClick={() => setIsCartPopupOpen(!isCartPopupOpen)}
           >
             <FiShoppingBag size={24} />

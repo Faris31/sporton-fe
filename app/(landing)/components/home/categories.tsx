@@ -45,7 +45,7 @@ const CategoriesSection = () => {
         <div className="grid grid-cols-6 gap-20 mt-9 sdh">
           {categoryList.map((category, index) => (
             <div
-              className="rounded-lg bg-gradient-to-r from-[#F1F1F1] to-[#F7F7F7D1] w-full aspect-square flex justify-center hover:shadow-xl hover:scale-105"
+              className="rounded-lg bg-linear-to-r from-[#F1F1F1] to-[#F7F7F7D1] w-full aspect-square flex justify-center hover:shadow-xl hover:scale-105 duration-250"
               key={index}
             >
               <div className="self-center">
@@ -54,7 +54,7 @@ const CategoriesSection = () => {
                   width={86}
                   height="86"
                   alt={category.name}
-                  className="mb-[10px]"
+                  className="mb-2.5"
                 />
                 <div className="text-primary text-xl font-medium text-center">
                   {category.name}
