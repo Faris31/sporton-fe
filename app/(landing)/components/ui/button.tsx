@@ -10,6 +10,7 @@ const Button = ({
   className,
   variant = "primary",
   size = "normal",
+  ...props
 }: TButtonProps) => {
   const baseStyle =
     "inline-flex gap-2 duration-200 justify-center items-center cursor-pointer hover:scale-102";
@@ -28,6 +29,7 @@ const Button = ({
   return (
     <button
       className={`${baseStyle} ${variants[variant]} ${sizes[size]} ${className}`}
+      {...props}
     >
       {children}
     </button>

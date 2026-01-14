@@ -31,7 +31,8 @@ const PaymentSteps = () => {
             next step.
           </li>
           <li>
-            Upload the payment receipt/screenshot using the <b>&apos;Upload Receipt & Confirm&apos;</b> button below to validate
+            Upload the payment receipt/screenshot using the{" "}
+            <b>&apos;Upload Receipt & Confirm&apos;</b> button below to validate
             your transaction.
           </li>
         </ol>
@@ -44,7 +45,11 @@ const PaymentSteps = () => {
             {priceFormater(4600000)}
           </div>
         </div>
-        <Button variant="dark" className="w-full mt-4" onClick={uploadConfirmed}>
+        <Button
+          variant="dark"
+          className="w-full mt-4"
+          onClick={uploadConfirmed}
+        >
           <FiCheckCircle />
           Upload Receipt & Confirm
         </Button>
