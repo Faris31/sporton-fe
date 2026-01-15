@@ -12,7 +12,11 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Sporton Website",
-  description: "Engineered for endurance and designed for speed. Experience gear that moves as fast as you do. Premium fabrics. Unmatched comfort. Limitless motion.",
+  description:
+    "Engineered for endurance and designed for speed. Experience gear that moves as fast as you do. Premium fabrics. Unmatched comfort. Limitless motion.",
+  icons: {
+    icon: "/images/logo_helmet.svg",
+  },
 };
 
 export default function RootLayout({
