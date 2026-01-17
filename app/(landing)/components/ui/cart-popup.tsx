@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 export const cartList = [
   {
+    id: 1,
     name: "SportsOn Product 1",
     category: "Running",
     price: 392000,
@@ -13,6 +14,7 @@ export const cartList = [
     imgUrl: "product-1.png",
   },
   {
+    id: 2,
     name: "SportsOn Product 2",
     category: "Tennis",
     price: 432000,
@@ -20,6 +22,7 @@ export const cartList = [
     imgUrl: "product-2.png",
   },
   {
+    id: 3,
     name: "SportsOn Product 3",
     category: "Football",
     price: 321000,
@@ -27,6 +30,7 @@ export const cartList = [
     imgUrl: "product-3.png",
   },
   {
+    id: 4,
     name: "SportsOn Product 4",
     category: "Football",
     price: 121000,
