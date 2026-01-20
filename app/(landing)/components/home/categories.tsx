@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 
-const categoryList = [
-  {
-    name: "Running",
-    imgUrl: "category-running.png",
-  },
-];
+// const categoryList = [
+//   {
+//     name: "Running",
+//     imgUrl: "category-running.png",
+//   },
+// ];
 
 type TCategoriesProps = {
   categories: Category[];
