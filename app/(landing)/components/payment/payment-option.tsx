@@ -1,5 +1,6 @@
 import { FiCreditCard } from "react-icons/fi";
 import CardWidthHeader from "../ui/card-witdh-header";
+import { getAllBanks } from "@/app/services/bank.service";
 
 const paymentList = [
   {
@@ -29,24 +30,31 @@ const paymentList = [
   },
 ];
 
-const PaymenOptions = () => {
-return (
-  <CardWidthHeader title="Payment Options">
-    {paymentList.map((payment, index) => (
-      <div className="flex gap-5 p-5 border-b border-gray-200" key={index}>
-        <div className="bg-blue-100 p-4 text-blue-500 h-fit self-center">
-          <FiCreditCard size={25} />
+const PaymenOptions = async () => {
+  const banks = await getAllBanks();
+
+  return (
+    <CardWidthHeader title="Payment Options">
+      {banks.map((payment) => (
+        <div
+          className="flex gap-5 p-5 border-b border-gray-200"
+          key={payment._id}
+        >
+          <div className="bg-blue-100 p-4 text-blue-500 h-fit self-center">
+            <FiCreditCard size={25} />
+          </div>
+          <div className="self-center">
+            <div className="font-bold">{payment.bankName}</div>
+            <div className="text-sm">{payment.accountNumber}</div>
+            <div className="text-sm opacity-70">{payment.accountName}</div>
+          </div>
+          <div className="ml-auto bg-blue-50 text-gray-700 text-xs self-center justify-center h-fit px-2 py-1">
+            Bank Transfer
+          </div>
         </div>
-        <div className="self-center">
-          <div className="font-bold">{payment.bank_name}</div>
-          <div className="text-sm">{payment.account_number}</div>
-          <div className="text-sm opacity-70">{payment.account_holder}</div>
-        </div>
-        <div className="ml-auto bg-blue-50 text-gray-700 text-xs self-center justify-center h-fit px-2 py-1">Bank Transfer</div>
-      </div>
-    ))}
-  </CardWidthHeader>
-);
-}
+      ))}
+    </CardWidthHeader>
+  );
+};
 
 export default PaymenOptions;

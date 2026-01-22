@@ -6,16 +6,66 @@ import FileUpload from "../ui/file-upload";
 import Button from "../ui/button";
 import priceFormater from "@/app/utils/price-formater";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { transactionCheckout } from "@/app/services/transaction.service";
 
 
 const PaymentSteps = () => {
-
   const { push } = useRouter();
+  const { items, customerInfo, reset } = useCartStore();
+  const [file, setFile] = useState<File | null>();
 
-  const uploadConfirmed = () => {
-    push("/order-status/123242")
-  }
-    
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.qty,
+    0,
+  );
+
+  // const uploadConfirmed = () => {
+  //   push("/order-status/123242")
+  // }
+
+  const handleConfirmPayment = async () => {
+    if (!file) {
+      alert("Please upload your payment receipt!");
+      return;
+    }
+
+    if (!customerInfo) {
+      alert("Customer information is missing, please return to checkout!");
+      push("/checkout");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("customerName", customerInfo.customerName);
+      formData.append(
+        "customerContact",
+        customerInfo.customerContact!.toString(),
+      );
+      formData.append("customerAddress", customerInfo.customerAddress);
+      formData.append("image", file);
+      formData.append(
+        "purhcaseItems",
+        JSON.stringify(
+          items.map((item) => ({ productId: item._id, qty: item.qty })),
+        ),
+      );
+      formData.append("totalPayment", totalPrice!.toString());
+
+      const res = await transactionCheckout(formData);
+
+      alert("Transactions created successfully!");
+      reset();
+      push(`/order-status/${res._id}`);
+
+      console.log("Transaction response", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <CardWidthHeader title="Payment Steps">
       <div className="p-5 border-b border-gray-200">
@@ -36,19 +86,19 @@ const PaymentSteps = () => {
             your transaction.
           </li>
         </ol>
-        <FileUpload />
+        <FileUpload onFileSelect={setFile} />
       </div>
       <div className="boder-t border-gray-200 p-4">
         <div className="flex justify-between font-semibold ">
           <div className="text-sm">Total</div>
           <div className="text-primary text-xs flex justify-center self-center">
-            {priceFormater(4600000)}
+            {priceFormater(totalPrice)}
           </div>
         </div>
         <Button
           variant="dark"
           className="w-full mt-4"
-          onClick={uploadConfirmed}
+          onClick={handleConfirmPayment}
         >
           <FiCheckCircle />
           Upload Receipt & Confirm

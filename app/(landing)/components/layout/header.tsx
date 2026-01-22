@@ -6,12 +6,14 @@ import { FiSearch } from "react-icons/fi";
 import { FiShoppingBag } from "react-icons/fi";
 import CartPopup from "../ui/cart-popup";
 import { useState } from "react";
+import { useCartStore } from "@/app/hooks/use-cart-store";
 
 const Header = () => {
+  const { items } = useCartStore();
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
   return (
-    <header className="fixed z-30 bg-white w-full transition-all ease-in-out top-0">
+    <header className="fixed z-30 backdrop-blur-md bg-white/70 w-full">
       <div className="relative flex justify-between gap-10 container mx-auto py-7">
         <Link href="/">
           <Image
@@ -38,9 +40,13 @@ const Header = () => {
             onClick={() => setIsCartPopupOpen(!isCartPopupOpen)}
           >
             <FiShoppingBag size={24} />
-            <div className="bg-primary rounded-full w-3.5 h-3.5 absolute -top-1 -right-1 text-primary-light text-[10px] text-center">
-              3
-            </div>
+            {items.length ? (
+              <div className="bg-primary rounded-full w-3.5 h-3.5 absolute -top-1 -right-1 text-primary-light text-[10px] text-center">
+                {items.length}
+              </div>
+            ) : (
+              <></>
+            )}
           </button>
           {isCartPopupOpen && <CartPopup />}
         </div>
