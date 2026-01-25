@@ -38,3 +38,14 @@ html {
 .input-group textarea {
   @apply px-4 py-2.5 bg-gray-100 w-full focus:border focus:border-gray-400 outline-none text-xs;
 }
+
+/* inpur group admin */
+.input-group-admin label {
+  @apply block text-xs mb-1;
+}
+
+.input-group-admin input,
+.input-group-admin select,
+.input-group-admin textarea {
+  @apply px-4 py-2.5 w-full border border-gray-400 rounded-md focus:border-gray-500 outline-none text-xs;
+}
