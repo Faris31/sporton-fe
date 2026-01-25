@@ -47,5 +47,5 @@ html {
 .input-group-admin input,
 .input-group-admin select,
 .input-group-admin textarea {
-  @apply px-4 py-2.5 w-full border border-gray-400 rounded-md focus:border-gray-500 outline-none text-xs;
+  @apply px-4 py-3 w-full border border-[#DBDBDB] rounded-md focus:border-gray-500 outline-none text-xs;
 }

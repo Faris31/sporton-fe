@@ -8,14 +8,14 @@ import TransactionModal from "../../components/transactions/transaction-modal";
 
 const TransactionManagement = () => {
 
-  const [isOpen, setIsOpen, onViewDetail] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   
   const handleCloseModal = () => {
     setIsOpen(false);
   }
 
   const handleViewDetails = () => {
-    setIsOpen(false);
+    setIsOpen(true);
   }
 
     return (
