@@ -10,7 +10,9 @@ type TCategoryModalProps = {
 
 const CategoryModal = ({ isOpen, onClose }: TCategoryModalProps) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | undefined>(
+      undefined,
+    );
 
     return (
       <Modal isOpen={isOpen} onClose={onClose} title="Add New Category">
