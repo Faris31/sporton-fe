@@ -3,11 +3,11 @@ import { useRef } from "react";
 import { FiUploadCloud } from "react-icons/fi";
 
 type TImageUploadPreviewProps = {
-    label?: string;
-    value?: string;
-    onChange: (file: File) => void;
-    className?: string;
-}
+  label?: string;
+  value?: string | null;
+  onChange: (file: File) => void;
+  className?: string;
+};
 
 const ImageUploadPreview = ({ label, value, onChange, className }: TImageUploadPreviewProps) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
