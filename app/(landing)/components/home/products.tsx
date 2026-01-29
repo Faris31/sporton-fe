@@ -50,10 +50,19 @@ const ProductsSection = ({ products }: TProductsProps) => {
               </Button>
             </div>
             <h3 className="font-medium text-lg mb-1.5 mt-4">{product.name}</h3>
-            <div className="flex justify-between">
-              <div className="text-gray-500">{product.category.name}</div>
+            <div className="flex justify-between mb-8">
+              <div className="text-gray-500">
+                {typeof product.category === "string"
+                  ? product.category
+                  : ((product.category as { name?: string })?.name ??
+                    String(product.category))}
+              </div>
               <div className="font-medium text-primary">
-                {priceFormater(product.price)}
+                {Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  maximumSignificantDigits: 3,
+                }).format(product.price)}
               </div>
             </div>
           </Link>

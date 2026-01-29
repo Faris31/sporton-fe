@@ -1,85 +1,245 @@
 import Button from "@/app/(landing)/components/ui/button";
 import Modal from "../ui/modal";
 import ImageUploadPreview from "../ui/image-upload-preview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Category, Product } from "@/app/types";
+import { fetchAPI, getImageUrl } from "@/app/lib/api";
+import { getAllCategories } from "@/app/services/category.service";
+import { createProduct, updateProduct } from "@/app/services/product.service";
+import { toast } from "react-toastify";
 
 type TProductModalProps = {
-    isOpen: boolean,
-    onClose: () => void,
-}
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess?: () => void;
+  product?: Product | null;
+};
 
-const ProductModal = ({ isOpen, onClose }: TProductModalProps) => {
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+type ProductFormData = {
+  name: string;
+  price: number;
+  stock: number;
+  categoryId: string;
+  description: string;
+};
 
-    return (
-      <Modal isOpen={isOpen} onClose={onClose} title="Add New Product">
-        <div className="flex flex-col gap-6">
-          <div className="flex gap-7">
-            <div className="min-w-50">
-                <ImageUploadPreview label="Product Image" value={imagePreview} onChange={
-                    (file) => {
-                        setImageFile(file),
-                        setImagePreview(URL.createObjectURL(file))
-                    }
-                } />
+const ProductModal = ({
+  isOpen,
+  onClose,
+  onSuccess,
+  product,
+}: TProductModalProps) => {
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [formData, setFromData] = useState<ProductFormData>({
+    name: "",
+    price: 0,
+    stock: 0,
+    categoryId: "",
+    description: "",
+  });
+
+  const isEditMode = !!product;
+
+  const fetchCategories = async () => {
+    // fetch categories from API and set to state
+    try {
+      const data = await getAllCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { id, value } = e.target;
+    setFromData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSumbit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("price", formData.price.toString());
+      data.append("stock", formData.stock.toString());
+      data.append("categoryId", formData.categoryId);
+      data.append("description", formData.description);
+      if (imageFile) {
+        data.append("image", imageFile);
+      }
+
+      if (isEditMode) {
+        await updateProduct(product._id, data);
+      } else {
+        await createProduct(data);
+      }
+
+      // Reset Form Data
+      setFromData({
+        name: "",
+        price: 0,
+        stock: 0,
+        categoryId: "",
+        description: "",
+      });
+      setImageFile(null);
+      setImagePreview(null);
+
+      toast.success(
+        isEditMode
+          ? "Product updated successfully!"
+          : "Product created successfully!",
+      );
+
+      onSuccess?.();
+      onClose?.();
+    } catch (error) {
+      console.error(
+        isEditMode ? "Failed to update product" : "Failed to Create Product",
+        error,
+      );
+      toast.error(
+        isEditMode
+          ? "Failed to update product. Please try again."
+          : "Failed to create product. Please try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditMode && isOpen) {
+      setFromData({
+        name: product.name,
+        price: product.price,
+        stock: product.stock,
+        categoryId: product.category._id,
+        description: product.description,
+      });
+      setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl) : null);
+    } else if (isOpen) {
+      setFromData({
+        name: "",
+        price: 0,
+        stock: 0,
+        categoryId: "",
+        description: "",
+      });
+      setImageFile(null);
+      setImagePreview(null);
+    }
+  }, [isOpen, product]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={isEditMode ? "Edit Product" : "Add New Product"}
+    >
+      <form onSubmit={handleSumbit} className="flex flex-col gap-6">
+        <div className="flex gap-7">
+          <div className="min-w-50">
+            <ImageUploadPreview
+              label="Product Image"
+              value={imagePreview}
+              onChange={(file) => {
+                setImageFile(file);
+                setImagePreview(URL.createObjectURL(file));
+              }}
+            />
+          </div>
+          <div className="flex flex-col gap-4 w-full">
+            <div className="input-group-admin">
+              <label htmlFor="name">Product Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="e. g. Running Shoes"
+              />
             </div>
-            <div className="flex flex-col gap-4 w-full">
+            <div className="grid grid-cols-2 gap-4">
               <div className="input-group-admin">
-                <label htmlFor="productName">Product Name</label>
+                <label htmlFor="price">Price (IDR)</label>
                 <input
-                  type="text"
-                  id="productName"
-                  name="productName"
-                  placeholder="e. g. Running Shoes"
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="e. g. 500000"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="input-group-admin">
-                  <label htmlFor="price">Price (IDR)</label>
-                  <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    placeholder="e. g. 500000"
-                  />
-                </div>
-                <div className="input-group-admin">
-                  <label htmlFor="stock">Stock</label>
-                  <input
-                    type="number"
-                    id="stock"
-                    name="stock"
-                    placeholder="e. g. 21"
-                  />
-                </div>
-              </div>
               <div className="input-group-admin">
-                <label htmlFor="category">Category</label>
-                <select name="category" id="category">
-                  <option value="" disabled>
-                    Select Category
-                  </option>
-                  <option value="running">Running</option>
-                  <option value="swimming">Swimming</option>
-                  <option value="football">Football</option>
-                </select>
+                <label htmlFor="stock">Stock</label>
+                <input
+                  type="number"
+                  id="stock"
+                  name="stock"
+                  value={formData.stock}
+                  onChange={handleChange}
+                  placeholder="e. g. 21"
+                />
               </div>
             </div>
+            <div className="input-group-admin">
+              <label htmlFor="category">Category</label>
+              <select
+                name="category"
+                id="category"
+                value={formData.categoryId}
+                onChange={handleChange}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="input-group-admin">
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description"
-              rows={7}
-              placeholder="Product Details...."
-            ></textarea>
-          </div>
-          <Button className="ml-auto mt-2 rounded-lg">Create Product</Button>
         </div>
-      </Modal>
-    );
-}
+        <div className="input-group-admin">
+          <label htmlFor="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            rows={7}
+            placeholder="Product Details...."
+            value={formData.description}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <Button
+          className="ml-auto mt-2 rounded-lg"
+          onClick={handleSumbit}
+          disabled={isSubmitting}
+          type="submit"
+        >
+          {isEditMode ? "Update Product" : "Create Product"}
+        </Button>
+      </form>
+    </Modal>
+  );
+};
 
 export default ProductModal;
