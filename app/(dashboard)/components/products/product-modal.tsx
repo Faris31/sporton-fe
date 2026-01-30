@@ -34,7 +34,7 @@ const ProductModal = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [formData, setFromData] = useState<ProductFormData>({
+  const [formData, setFormData] = useState<ProductFormData>({
     name: "",
     price: 0,
     stock: 0,
@@ -60,7 +60,7 @@ const ProductModal = ({
     >,
   ) => {
     const { id, value } = e.target;
-    setFromData((prev) => ({ ...prev, [id]: value }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSumbit = async (e: React.FormEvent) => {
@@ -84,7 +84,7 @@ const ProductModal = ({
       }
 
       // Reset Form Data
-      setFromData({
+      setFormData({
         name: "",
         price: 0,
         stock: 0,
@@ -119,7 +119,7 @@ const ProductModal = ({
 
   useEffect(() => {
     if (isEditMode && isOpen) {
-      setFromData({
+      setFormData({
         name: product.name,
         price: product.price,
         stock: product.stock,
@@ -128,7 +128,7 @@ const ProductModal = ({
       });
       setImagePreview(product.imageUrl ? getImageUrl(product.imageUrl) : null);
     } else if (isOpen) {
-      setFromData({
+      setFormData({
         name: "",
         price: 0,
         stock: 0,
@@ -201,8 +201,8 @@ const ProductModal = ({
             <div className="input-group-admin">
               <label htmlFor="category">Category</label>
               <select
-                name="category"
-                id="category"
+                name="categoryId"
+                id="categoryId"
                 value={formData.categoryId}
                 onChange={handleChange}
               >

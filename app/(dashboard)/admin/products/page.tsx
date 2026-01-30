@@ -1,4 +1,5 @@
-"use client"
+/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
 
 import Button from "@/app/(landing)/components/ui/button";
 import { FiPlus } from "react-icons/fi";
@@ -8,9 +9,9 @@ import { useEffect, useState } from "react";
 import { Product } from "@/app/types";
 import { deleteProduct, getAllProducts } from "@/app/services/product.service";
 import { toast } from "react-toastify";
+import DeleteModal from "../../components/ui/delete-modal";
 
 const CategoryManagement = () => {
-
   const [products, setProducts] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -53,42 +54,43 @@ const CategoryManagement = () => {
   };
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      fetctProducts();
-    }, 0);
-    return () => clearTimeout(id);
+    fetctProducts();
   }, []);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  }
+    setSelectedProduct(null);
+  };
 
-    return (
-      <div>
-        <div className="flex justify-between items-center mb-10">
-          <div>
-            <h1 className="font-bold text-2xl">Product Management</h1>
-            <p className="opacity-50">
-              Manage your inventory, prices and stock.
-            </p>
-          </div>
-          <Button className="rounded-lg" onClick={() => setIsModalOpen(true)}>
-            <FiPlus size={24} /> Add Product
-          </Button>
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="font-bold text-2xl">Product Management</h1>
+          <p className="opacity-50">Manage your inventory, prices and stock.</p>
         </div>
-        <ProductTable
-          products={products}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-        <ProductModal
-          product={selectedProduct}
-          onSuccess={fetctProducts}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
+        <Button className="rounded-lg" onClick={() => setIsModalOpen(true)}>
+          <FiPlus size={24} /> Add Product
+        </Button>
       </div>
-    );
-}
+      <ProductTable
+        products={products}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+      <ProductModal
+        product={selectedProduct}
+        onSuccess={fetctProducts}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
+    </div>
+  );
+};
 
 export default CategoryManagement;
