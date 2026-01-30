@@ -17,7 +17,7 @@ type TCategoriesProps = {
 
 const CategoriesSection = ({ categories }: TCategoriesProps) => {
   return (
-    <section id="category-section" className="container mx-auto pb-20">
+    <section id="category-section" className="container mx-auto pb-20 pt-30">
       <div className="flex justify-between">
         <h2 className="font-bold text-2xl">Browse By Categories</h2>
         <Link

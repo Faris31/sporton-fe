@@ -5,15 +5,34 @@ import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { FiShoppingBag } from "react-icons/fi";
 import CartPopup from "../ui/cart-popup";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCartStore } from "@/app/hooks/use-cart-store";
 
 const Header = () => {
   const { items } = useCartStore();
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
+  const [active, setActive] = useState("hero");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const underlineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const activeEl = containerRef.current?.querySelector(
+      `[data-id="${active}"]`,
+    ) as HTMLElement | null;
+
+    if (activeEl && underlineRef.current) {
+      const { offsetLeft, offsetWidth } = activeEl;
+
+      underlineRef.current.style.transform = `translateX(${offsetLeft}px)`;
+      underlineRef.current.style.width = `${offsetWidth}px`;
+    }
+  }, [active]);
+  const underline =
+    "relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-primary after:rounded-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100";
+
   return (
-    <header className="fixed z-30 backdrop-blur-md bg-white/70 w-full">
+    <header className="fixed z-30 backdrop-blur-md bg-white/70 w-full scroll-smooth">
       <div className="relative flex justify-between gap-10 container mx-auto py-7">
         <Link href="/">
           <Image
@@ -23,15 +42,41 @@ const Header = () => {
             height={30}
           />
         </Link>
-        <nav className="flex gap-44 font-medium">
+        <nav className="flex gap-44 font-medium relative" ref={containerRef}>
+          <div
+            ref={underlineRef}
+            className="
+          absolute
+          -bottom-0.5
+          left-0
+          h-1
+          bg-primary
+          rounded-full
+          transition-all
+          duration-300
+        "
+          />
           <Link
-            href="#"
-            className="relative after:content-[''] after:block after:bg-primary after:rounded-full after:h-0.75 after:w-2/3 after:absolute after:left-1/2 after:-translate-x-1/2 after:translte-1"
+            href="#hero-section"
+            data-id="hero-section"
+            onClick={() => setActive("hero-section")}
           >
             Home
           </Link>
-          <Link href="#">Category</Link>
-          <Link href="#">Explore Products</Link>
+          <Link
+            href="#category-section"
+            data-id="category-section"
+            onClick={() => setActive("category-section")}
+          >
+            Category
+          </Link>
+          <Link
+            href="#products-sections"
+            data-id="products-sections"
+            onClick={() => setActive("products-sections")}
+          >
+            Explore Products
+          </Link>
         </nav>
         <div className="flex gap-10 items-center">
           <FiSearch size={24} className="hover:scale-125 duration-200" />
