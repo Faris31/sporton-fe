@@ -6,17 +6,19 @@ import { useEffect, useState } from "react";
 import TransactionTable from "../../components/transactions/transaction-table";
 import TransactionModal from "../../components/transactions/transaction-modal";
 import { Transaction } from "@/app/types";
-import { getAllTransactions } from "@/app/services/transaction.service";
+import {
+  getAllTransactions,
+  updateTransaction,
+} from "@/app/services/transaction.service";
 import { toast } from "react-toastify";
 
 const TransactionManagement = () => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const fetchTransaction = async () => {
+  const fetchTransactions = async () => {
     try {
       const data = await getAllTransactions();
       setTransactions(data);
@@ -28,7 +30,7 @@ const TransactionManagement = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedTransaction(null);
-  }
+  };
 
   const handleViewDetails = (transaction: Transaction) => {
     setIsModalOpen(true);
@@ -46,44 +48,41 @@ const TransactionManagement = () => {
 
       toast.success("Transaction status updated");
 
-      await fetchTransaction();
+      await fetchTransactions();
     } catch (error) {
       console.error("Failed to update transaction status", error);
       toast.error("Failed to update transaction status");
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchTransaction();
+    fetchTransactions();
   }, []);
 
-    return (
-      <div>
-        <div className="flex justify-between items-center mb-10">
-          <div>
-            <h1 className="font-bold text-2xl">Transaction Management</h1>
-            <p className="opacity-50">
-              Verify incoming payments and manage orders.
-            </p>
-          </div>
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="font-bold text-2xl">Transaction Management</h1>
+          <p className="opacity-50">
+            Verify incoming payments and manage orders.
+          </p>
         </div>
-        <TransactionTable
-          onViewDetails={handleViewDetails}
-          transactions={transactions}
-        />
-        <TransactionModal
-          transaction={selectedTransaction}
-          onStatusChange={handleStatusChange}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
       </div>
-    );
-}
+      <TransactionTable
+        onViewDetails={handleViewDetails}
+        transactions={transactions}
+      />
+      <TransactionModal
+        transaction={selectedTransaction}
+        onStatusChange={handleStatusChange}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+    </div>
+  );
+};
 
 export default TransactionManagement;
-
-function updateTransaction(id: string, formData: FormData) {
-  throw new Error("Function not implemented.");
-}

@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Button from "../ui/button";
-import { FiCreditCard, FiTrash2 } from "react-icons/fi";
 import priceFormater from "@/app/utils/price-formater";
 import CardWidthHeader from "../ui/card-witdh-header";
+import { FiCreditCard, FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/app/hooks/use-cart-store";
 import { getImageUrl } from "@/app/lib/api";

@@ -47,7 +47,7 @@ const PaymentSteps = () => {
       formData.append("customerAddress", customerInfo.customerAddress);
       formData.append("image", file);
       formData.append(
-        "purhcaseItems",
+        "purchasedItems",
         JSON.stringify(
           items.map((item) => ({ productId: item._id, qty: item.qty })),
         ),

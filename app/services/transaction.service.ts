@@ -22,11 +22,11 @@ export const getAllTransactions = async (): Promise<Transaction[]> => {
   });
 };
 
-export const updateTransactionStatus = async (
+export const updateTransaction = async (
   id: string,
   data: FormData,
 ): Promise<Transaction> => {
-  return await fetchAPI<Transaction>(`/transaction/${id}`, {
+  return await fetchAPI<Transaction>(`/transactions/${id}`, {
     method: "PUT",
     headers: {
       ...getAuthHeaders(),

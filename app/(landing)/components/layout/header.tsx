@@ -28,8 +28,6 @@ const Header = () => {
       underlineRef.current.style.width = `${offsetWidth}px`;
     }
   }, [active]);
-  const underline =
-    "relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-primary after:rounded-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100";
 
   return (
     <header className="fixed z-30 backdrop-blur-md bg-white/70 w-full scroll-smooth">

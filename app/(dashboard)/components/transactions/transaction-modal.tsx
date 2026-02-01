@@ -88,7 +88,10 @@ const TransactionModal = ({
           <h4 className="font-semibold text-sm mb-2">Items Purchased</h4>
           <div className="space-y-3">
             {transaction.purchasedItems.map((item, index) => (
-              <div className="border border-gray-200 rounded-lg p-2 flex items-center gap-2">
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-2 flex items-center gap-2"
+              >
                 <div className="bg-gray-100 rounded aspect-square w-8 h-8">
                   <Image
                     src={getImageUrl(item.productId.imageUrl)}
@@ -104,31 +107,37 @@ const TransactionModal = ({
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-sm mt-4">
             <h4 className="font-semibold">Total </h4>
             <div className="text-primary font-semibold">
               {priceFormater(parseInt(transaction.totalPayment))}
             </div>
           </div>
           <div className="mt-12 flex justify-end gap-5">
-            <Button
-              className="bg-primary-light! text-primary! rounded-md"
-              size="small"
-              disabled={isUpdating}
-              onClick={() => handleStatusUpdate("rejected")}
-            >
-              <FiX size={20} />
-              {isUpdating ? "Updating..." : "Reject"}
-            </Button>
-            <Button
-              className="bg-[#50C252]! text-white! rounded-md"
-              size="small"
-              disabled={isUpdating}
-              onClick={() => handleStatusUpdate("paid")}
-            >
-              <FiCheck size={20} />
-              {isUpdating ? "Updating..." : "Approve"}
-            </Button>
+            {isUpdating ? (
+              <div className="text-center">Updating...</div>
+            ) : (
+              <>
+                <Button
+                  className="bg-primary-light! text-primary! rounded-md"
+                  size="small"
+                  disabled={isUpdating}
+                  onClick={() => handleStatusUpdate("rejected")}
+                >
+                  <FiX size={20} />
+                  Reject
+                </Button>
+                <Button
+                  className="bg-[#50C252]! text-white! rounded-md"
+                  size="small"
+                  disabled={isUpdating}
+                  onClick={() => handleStatusUpdate("paid")}
+                >
+                  <FiCheck size={20} />
+                  Approve
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
