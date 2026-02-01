@@ -119,7 +119,7 @@ const CategoryModal = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={isEditMode ? "Add New Category" : "Edit Category"}
+      title={isEditMode ? "Edit Category" : "Add New Category"}
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         <div className="flex gap-7">
