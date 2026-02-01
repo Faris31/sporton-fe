@@ -46,10 +46,10 @@ export interface Transaction {
   _id: string;
   paymentProof: string;
   status: "pending" | "paid" | "rejected";
-  purchasedItem: {
-    productId: string;
+  purchasedItems: {
+    productId: Product;
     qty: number;
-  };
+  }[];
   totalPayment: string;
   customerName: string;
   customerContact: number | null;

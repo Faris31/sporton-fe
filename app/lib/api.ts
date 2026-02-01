@@ -20,6 +20,8 @@ export async function fetchAPI<T>(
   }
 
   return res.json();
+  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL + endpoint);
+
 }
 
 export function getImageUrl(path: string) {

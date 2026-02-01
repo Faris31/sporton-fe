@@ -1,3 +1,4 @@
+import { Transaction } from "@/app/types";
 import priceFormater from "@/app/utils/price-formater";
 import { FiEye } from "react-icons/fi";
 
@@ -26,10 +27,14 @@ const datas = [
 ];
 
 type TTransactionTableProps = {
-  onViewDetails: () => void;
+  onViewDetails: (transaction: Transaction) => void;
+  transactions: Transaction[];
 };
 
-const TransactionTable = ({ onViewDetails }: TTransactionTableProps) => {
+const TransactionTable = ({
+  onViewDetails,
+  transactions,
+}: TTransactionTableProps) => {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
@@ -54,16 +59,24 @@ const TransactionTable = ({ onViewDetails }: TTransactionTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {datas.map((data, index) => (
+          {transactions.map((data) => (
             <tr
-              key={index}
+              key={data._id}
               className="border-b border-gray-200 last:border-b-0"
             >
-              <td className="px-6 py-4 font-medium">{data.date}</td>
-              <td className="px-6 py-4 font-medium">{data.customer}</td>
-              <td className="px-6 py-4 font-medium">{data.contact}</td>
               <td className="px-6 py-4 font-medium">
-                {priceFormater(data.total)}
+                {new Date(data.createdAt).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </td>
+              <td className="px-6 py-4 font-medium">{data.customerName}</td>
+              <td className="px-6 py-4 font-medium">{data.customerContact}</td>
+              <td className="px-6 py-4 font-medium">
+                {priceFormater(parseInt(data.totalPayment))}
               </td>
               <td className="px-6 py-4 font-medium">
                 <div
@@ -74,7 +87,7 @@ const TransactionTable = ({ onViewDetails }: TTransactionTableProps) => {
               </td>
               <td className="px-6 py-8 flex gap-3 text-gray-600">
                 <button
-                  onClick={onViewDetails}
+                  onClick={() => onViewDetails(data)}
                   className="cursor-pointer hover:scale-110 hover:bg-gray-100 py-1 px-2 rounded-md flex gap-3 items-center w-fit"
                 >
                   <FiEye size={18} />
